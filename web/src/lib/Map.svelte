@@ -2,14 +2,19 @@
     import { onMount } from "svelte"
     import "../../node_modules/ol/ol.css"
     import { Map, View } from "ol"
-    import { Image } from "ol/layer"
+    import {
+        Image,
+        Graticule,
+    } from "ol/layer"
     import { ImageStatic } from "ol/source"
     import { Projection } from "ol/proj"
+    import { Stroke } from "ol/style"
 
     const projection = new Projection({
         code: "zeli-b",
         units: "degrees",
         extent: [0, -90, 360, 90],
+        worldExtent: [0, -90, 360, 90],
     })
     
     onMount(async () => {
@@ -27,6 +32,26 @@
                         projection,
                         imageExtent: [0, -90, 360, 90],
                     })
+                }),
+                new Graticule({
+                    strokeStyle: new Stroke({
+                        color: "black",
+                        width: 0.5,
+                    }),
+                    showLabels: true,
+                    intervals: [30],
+                    lonLabelFormatter(lon) {
+                        if (lon < 180)  return `${lon}°N +${lon/15}`
+                        if (lon == 180) return `180° +12`
+                        if (lon > 180)  return `${360-lon}°V +${lon/15}`
+                        return ""
+                    },
+                    latLabelFormatter(lat) {
+                        if (lat > 0)  return `${lat}°U`
+                        if (lat == 0) return `0°`
+                        if (lat < 0)  return `${lat}°K`
+                        return ""
+                    },
                 })
             ]
         })
