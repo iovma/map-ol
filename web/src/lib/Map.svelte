@@ -4,7 +4,6 @@
     import { Map, View } from "ol"
     import {
         Image,
-        Graticule,
         Vector as VectorLayer,
     } from "ol/layer"
     import {
@@ -12,11 +11,13 @@
         Vector as VectorSource,
     } from "ol/source"
     import { Projection } from "ol/proj"
-    import { Stroke } from "ol/style"
+    import { } from "ol/style"
     import { TopoJSON, GeoJSON } from "ol/format"
 
     // @ts-ignore
     import sat5282 from "./data/5282.geo.json"
+
+    import graticule from "./map/graticule.ts"
 
     const projection = new Projection({
         code: "zeli-b",
@@ -41,26 +42,7 @@
                         imageExtent: [0, -90, 360, 90],
                     })
                 }),
-                new Graticule({
-                    strokeStyle: new Stroke({
-                        color: "black",
-                        width: 0.5,
-                    }),
-                    showLabels: true,
-                    intervals: [30],
-                    lonLabelFormatter(lon) {
-                        if (lon < 180)  return `${lon}°N +${lon/15}`
-                        if (lon == 180) return `180° +12`
-                        if (lon > 180)  return `${360-lon}°V +${lon/15}`
-                        return ""
-                    },
-                    latLabelFormatter(lat) {
-                        if (lat > 0)  return `${lat}°U`
-                        if (lat == 0) return `0°`
-                        if (lat < 0)  return `${lat}°K`
-                        return ""
-                    },
-                }),
+                graticule,
                 new VectorLayer({
                     source: new VectorSource({
                         features: new GeoJSON({
