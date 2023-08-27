@@ -63,6 +63,7 @@
     #map {
         width: 100%;
         height: 100%;
+        background: #5e95b4;
     }
 </style>
 
