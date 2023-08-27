@@ -5,10 +5,18 @@
     import {
         Image,
         Graticule,
+        Vector as VectorLayer,
     } from "ol/layer"
-    import { ImageStatic } from "ol/source"
+    import {
+        ImageStatic,
+        Vector as VectorSource,
+    } from "ol/source"
     import { Projection } from "ol/proj"
     import { Stroke } from "ol/style"
+    import { TopoJSON, GeoJSON } from "ol/format"
+
+    // @ts-ignore
+    import sat5282 from "./data/5282.geo.json"
 
     const projection = new Projection({
         code: "zeli-b",
@@ -52,6 +60,12 @@
                         if (lat < 0)  return `${lat}°K`
                         return ""
                     },
+                }),
+                new VectorLayer({
+                    source: new VectorSource({
+                        features: new GeoJSON({
+                        }).readFeatures(sat5282),
+                    }),
                 })
             ]
         })
