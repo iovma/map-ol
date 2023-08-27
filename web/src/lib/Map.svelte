@@ -11,7 +11,7 @@
         Vector as VectorSource,
     } from "ol/source"
     import { Projection } from "ol/proj"
-    import { } from "ol/style"
+    import { Style, Fill } from "ol/style"
     import { TopoJSON, GeoJSON } from "ol/format"
 
     // @ts-ignore
@@ -42,13 +42,20 @@
                         imageExtent: [0, -90, 360, 90],
                     })
                 }),
-                graticule,
                 new VectorLayer({
                     source: new VectorSource({
                         features: new GeoJSON({
                         }).readFeatures(sat5282),
                     }),
-                })
+                    style(feature) {
+                        return new Style({
+                            fill: new Fill({
+                                color: feature.get("fcolor")
+                            })
+                        })
+                    }
+                }),
+                graticule,
             ]
         })
     })
