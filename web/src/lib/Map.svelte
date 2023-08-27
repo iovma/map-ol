@@ -47,13 +47,11 @@
                         features: new GeoJSON({
                         }).readFeatures(sat5282),
                     }),
-                    style(feature) {
-                        return new Style({
-                            fill: new Fill({
-                                color: feature.get("fcolor")
-                            })
+                    style: feature => new Style({
+                        fill: new Fill({
+                            color: feature.get("fcolor")
                         })
-                    }
+                    })
                 }),
                 graticule,
             ]
