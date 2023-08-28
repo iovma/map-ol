@@ -12,17 +12,15 @@
     } from "ol/source"
     import { Projection } from "ol/proj"
     import { Style, Fill, Text } from "ol/style"
-    import { TopoJSON, GeoJSON } from "ol/format"
+    import { TopoJSON } from "ol/format"
     import {
         Select,
         Modify,
         defaults as defaultInteractions,
     } from "ol/interaction"
 
-    // @ts-ignore
-    import sat5282 from "./data/5282.clean.topo.json"
-
     import graticule from "./map/graticule.ts"
+    import polygon from "./map/polygon.ts"
 
     const projection = new Projection({
         code: "zeli-b",
@@ -33,7 +31,6 @@
     })
     
     onMount(async () => {
-        const data = await fetch("https://raw.githubusercontent.com/iovma/sat-data/dist/dist/나라.json").then(x=>x.json())
         const select = new Select()
         new Map({
             target: "map",
@@ -59,24 +56,7 @@
                         imageExtent: [0, -90, 360, 90],
                     })
                 }),*/
-                new VectorLayer({
-                    source: new VectorSource({
-                        features: new TopoJSON({
-                        }).readFeatures(sat5282),
-                        wrapX: true,
-                    }),
-                    style: feature => new Style({
-                        fill: new Fill({
-                            color: feature.get("fcolor")
-                        }),
-                        text: new Text({
-                            text: data.find(({상징색1: color}: {상징색1: string}) => color?.toLowerCase?.() == feature.get("fcolor"))?.현지이름 || "",
-                            font: "bold 15px CMU serif",
-                            overflow: true,
-                        })
-                    }),
-                    declutter: true,
-                }),
+                polygon,
                 graticule,
             ]
         })
