@@ -40,7 +40,7 @@ export default new VectorLayer({
             text: new Text({
                 text: field?.나라이름 || ""
                 ,
-                font: `15px Heir of Light`,
+                font: "15px Heir of Light",
                 fill: new Fill({color: textColor}),
                 overflow: true,
             })

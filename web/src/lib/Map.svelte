@@ -21,6 +21,7 @@
 
     import graticule from "./map/graticule.ts"
     import polygon from "./map/polygon.ts"
+    import marker from "./map/marker.ts"
 
     const projection = new Projection({
         code: "zeli-b",
@@ -58,6 +59,7 @@
                 }),*/
                 polygon,
                 graticule,
+                marker,
             ]
         })
     })
