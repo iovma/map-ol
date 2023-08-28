@@ -15,7 +15,7 @@
     import { TopoJSON, GeoJSON } from "ol/format"
 
     // @ts-ignore
-    import sat5282 from "./data/5282.geo.json"
+    import sat5282 from "./data/5282.topo.json"
 
     import graticule from "./map/graticule.ts"
 
@@ -45,7 +45,7 @@
                 }),
                 new VectorLayer({
                     source: new VectorSource({
-                        features: new GeoJSON({
+                        features: new TopoJSON({
                         }).readFeatures(sat5282),
                         wrapX: true,
                     }),
