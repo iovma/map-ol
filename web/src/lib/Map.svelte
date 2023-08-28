@@ -24,6 +24,7 @@
         units: "degrees",
         extent: [0, -90, 360, 90],
         worldExtent: [0, -90, 360, 90],
+        global: true,
     })
     
     onMount(async () => {
@@ -46,6 +47,7 @@
                     source: new VectorSource({
                         features: new GeoJSON({
                         }).readFeatures(sat5282),
+                        wrapX: true,
                     }),
                     style: feature => new Style({
                         fill: new Fill({

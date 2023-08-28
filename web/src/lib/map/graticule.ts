@@ -20,4 +20,5 @@ export default new Graticule({
         if (lat < 0)  return `${lat}°K`
         return ""
     },
+    wrapX: true,
 })
