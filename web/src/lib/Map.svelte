@@ -11,7 +11,7 @@
         Vector as VectorSource,
     } from "ol/source"
     import { Projection } from "ol/proj"
-    import { Style, Fill } from "ol/style"
+    import { Style, Fill, Text } from "ol/style"
     import { TopoJSON, GeoJSON } from "ol/format"
     import {
         Select,
@@ -33,6 +33,7 @@
     })
     
     onMount(async () => {
+        const data = await fetch("https://raw.githubusercontent.com/iovma/sat-data/dist/dist/나라.json").then(x=>x.json())
         const select = new Select()
         new Map({
             target: "map",
@@ -50,13 +51,14 @@
                 zoom: 2,
             }),
             layers: [
+                /*
                 new Image({
                     source: new ImageStatic({
                         url: "https://github.com/zeli-b/sat/blob/2b403307851c333da698c14cfa2a6ef78cbfad11/%EC%84%B8%EA%B3%84%EC%A7%80%EB%8F%84/world.png?raw=true",
                         projection,
                         imageExtent: [0, -90, 360, 90],
                     })
-                }),
+                }),*/
                 new VectorLayer({
                     source: new VectorSource({
                         features: new TopoJSON({
@@ -66,8 +68,14 @@
                     style: feature => new Style({
                         fill: new Fill({
                             color: feature.get("fcolor")
+                        }),
+                        text: new Text({
+                            text: data.find(({상징색1: color}: {상징색1: string}) => color?.toLowerCase?.() == feature.get("fcolor"))?.현지이름 || "",
+                            font: "bold 15px CMU serif",
+                            overflow: true,
                         })
-                    })
+                    }),
+                    declutter: true,
                 }),
                 graticule,
             ]
