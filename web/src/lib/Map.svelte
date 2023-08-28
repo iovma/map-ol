@@ -13,9 +13,14 @@
     import { Projection } from "ol/proj"
     import { Style, Fill } from "ol/style"
     import { TopoJSON, GeoJSON } from "ol/format"
+    import {
+        Select,
+        Modify,
+        defaults as defaultInteractions,
+    } from "ol/interaction"
 
     // @ts-ignore
-    import sat5282 from "./data/5282.topo.json"
+    import sat5282 from "./data/5282.clean.topo.json"
 
     import graticule from "./map/graticule.ts"
 
@@ -28,8 +33,17 @@
     })
     
     onMount(async () => {
+        const select = new Select()
         new Map({
             target: "map",
+            interactions:
+                defaultInteractions()
+                .extend([
+                    select,
+                    new Modify({
+                        features: select.getFeatures(),
+                    })
+                ]),
             view: new View({
                 projection,
                 center: [180, 0],
